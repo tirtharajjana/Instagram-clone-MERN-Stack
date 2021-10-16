@@ -1,8 +1,12 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
-const { MONGOURI } = require('./keys')
+const { MONGOURI } = require('./keys');
+
 require('./models/user');
+
+app.use(express.json());
+app.use(require('./routes/auth.js'));
 
 mongoose.connect(MONGOURI, {
     useNewUrlParser: true,
