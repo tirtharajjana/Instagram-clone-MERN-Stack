@@ -8,7 +8,7 @@ router.get('/allpost', (req, res) => {
     Post.find()
         .populate('postedBy', "_id name")
         .then(posts => {
-            res.json({ posts })
+            return res.json({ posts })
         }).catch(err => console.log(err))
 })
 
@@ -22,6 +22,15 @@ router.post('/createpost', requireLogin, (req, res) => {
     post.save().then(result => {
         res.json({ post: result })
     }).catch(err => console.log(err))
+})
+
+router.get('/mypost', requireLogin, (req, res) => {
+    Post.find({ postedBy: req.user._id })
+        .populate("postedBy", "_id name")
+        .then(myPost => {
+            return res.json({ myPost })
+        })
+        .catch(err => console.log(err))
 })
 
 module.exports = router;
