@@ -8,7 +8,7 @@ const Login = () => {
                 <h2>Instagram</h2>
                 <input type="email" placeholder="email" />
                 <input type="password" placeholder="password" />
-                <button class="btn waves-effect waves-light #64b5f6 blue lighten-2">Login</button>
+                <button class="btn waves-effect waves-light #64b5f6 blue darken-2">Login</button>
                 <h5>
                     <Link to="/signup">Don't have an account ?</Link>
                 </h5>
