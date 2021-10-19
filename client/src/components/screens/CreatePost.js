@@ -15,7 +15,7 @@ const CreatePost = () => {
                 </div>
 
             </div>
-            <button class="btn waves-effect waves-light #64b5f6 blue darken-2">Submit Post</button>
+            <button className="btn waves-effect waves-light #64b5f6 blue darken-2">Submit Post</button>
         </div>
     )
 }
