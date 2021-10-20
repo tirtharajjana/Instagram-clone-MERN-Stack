@@ -25,7 +25,7 @@ const Signup = () => {
                         M.toast({ html: data.message, classes: "#00e676 green accent-3" })
                         history.push('/signin')
                     }
-                })
+                }).catch(err => console.log(err));
         } else {
             M.toast({ html: "Invalid email", classes: "#e53935 red darken-1" })
 
