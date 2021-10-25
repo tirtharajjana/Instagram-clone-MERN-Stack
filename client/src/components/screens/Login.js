@@ -28,9 +28,9 @@ const Login = () => {
                     else {
                         localStorage.setItem("jwt", data.token);
                         localStorage.setItem("user", JSON.stringify(data.user));
-                        dispatch({ type: "User", payload: data.user })
-                        M.toast({ html: "Signedin successfully", classes: "#00e676 green accent-3" })
-                        history.push('/')
+                        dispatch({ type: "USER", payload: data.user });
+                        M.toast({ html: "Signedin successfully", classes: "#00e676 green accent-3" });
+                        history.push('/');
                     }
                 }).catch(err => console.log(err));
         } else {
