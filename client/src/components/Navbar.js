@@ -6,7 +6,7 @@ const Navbar = () => {
     const history = useHistory();
     const { state, dispatch } = useContext(UserContext)
     const renderList = () => {
-        console.log(state);
+        // console.log(state);
         if (!state) {
             return [
                 <li><Link to="/signin">Log in</Link></li>,
