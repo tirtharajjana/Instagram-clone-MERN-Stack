@@ -7,6 +7,7 @@ const Post = mongoose.model("Post")
 router.get('/allpost', requireLogin, (req, res) => {
     Post.find()
         .populate('postedBy', "_id name")
+        .populate("comments.postedBy", "_id name")
         .then(posts => {
             return res.json({ posts })
         }).catch(err => console.log(err))
@@ -60,20 +61,41 @@ router.put('/unlike', requireLogin, (req, res) => {
         })
 })
 
+// router.put('/comment', requireLogin, (req, res) => {
+//     const comment = {
+//         text: req.body.text,
+//         postedBy: req.user._id
+//     }
+//     Post.findByIdAndUpdate(req.body.postId, {
+//         $push: { comments: comment }
+//     }, { new: true })
+//         .populate('comments.postedBy', '_id name')
+//         .exec((err, result) => {
+//             if (err) {
+//                 return res.status(422).json({ error: error })
+//             } else {
+//                 return res.json(result)
+//             }
+//         })
+// })
+
 router.put('/comment', requireLogin, (req, res) => {
     const comment = {
         text: req.body.text,
         postedBy: req.user._id
     }
     Post.findByIdAndUpdate(req.body.postId, {
-        $pull: { comments: comment }
-    }, { new: true })
-        .populate('comments.postedBy', '_id name')
+        $push: { comments: comment }
+    }, {
+        new: true
+    })
+        .populate("comments.postedBy", "_id name")
+        .populate("postedBy", "_id name")
         .exec((err, result) => {
             if (err) {
-                return res.status(422).json({ error: error })
+                return res.status(422).json({ error: err })
             } else {
-                return res.json(result)
+                res.json(result)
             }
         })
 })
