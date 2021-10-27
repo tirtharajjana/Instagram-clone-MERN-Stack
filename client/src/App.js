@@ -8,6 +8,7 @@ import Login from "./components/screens/Login";
 import Profile from "./components/screens/Profile";
 import Signup from "./components/screens/Signup";
 import CreatePost from "./components/screens/CreatePost";
+import UserProfile from "./components/screens/UserProfile";
 import { reducre, initialState } from './reducres/userReducre'
 
 
@@ -31,8 +32,9 @@ const Routing = () => {
       <Route path="/" exact component={Home} />
       <Route path="/signin" component={Login} />
       <Route path="/signup" component={Signup} />
-      <Route path="/profile" component={Profile} />
+      <Route path="/profile" exact component={Profile} />
       <Route path="/create" component={CreatePost} />
+      <Route path="/profile/:userid" component={UserProfile} />
     </Switch>
   )
 }
