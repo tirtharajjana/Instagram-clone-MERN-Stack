@@ -12,7 +12,7 @@ router.get('/', requireLogin, (req, res) => {
 })
 
 router.post('/signup', (req, res) => {
-    const { name, email, password } = req.body;
+    const { name, email, password, pic } = req.body;
 
     if (!email || !name || !password) {
         return res.status(422).json({ error: "please add all fields" })
@@ -24,7 +24,7 @@ router.post('/signup', (req, res) => {
             }
             bcrypt.hash(password, 12)
                 .then(hashedPassword => {
-                    const user = new User({ email, name, password: hashedPassword });
+                    const user = new User({ email, name, password: hashedPassword, pic });
                     user.save()
                         .then(user => {
                             console.log(user);
@@ -57,8 +57,8 @@ router.post('/signin', (req, res) => {
                         // console.log(savedUser);
                         // return res.json({ message: "Successfully Signed in" })
                         const token = jwt.sign({ _id: savedUser._id }, JWT_SECRET);
-                        const { _id, name, email, followers, following } = savedUser;
-                        return res.json({ token, user: { _id, name, email, followers, following } })
+                        const { _id, name, email, followers, following, pic } = savedUser;
+                        return res.json({ token, user: { _id, name, email, followers, following, pic } })
 
                     }
                     else {

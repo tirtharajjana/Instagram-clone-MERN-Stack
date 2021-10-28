@@ -20,7 +20,7 @@ const Profile = () => {
             <div style={{ display: "flex", justifyContent: "space-around", margin: "18px 0px", borderBottom: "1px solid grey" }}>
                 <div >
                     <img style={{ width: "160px", height: "160px", borderRadius: "50%" }} alt='logo'
-                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJS522UPgHz758IciX31VWYyXQsiHkR1xfKg&usqp=CAU"
+                        src={state ? state.pic : "https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif    "}
                     />
                 </div>
                 <div>
