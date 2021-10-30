@@ -7,7 +7,9 @@ const userSchema = new mongoose.Schema({
     password: { type: String, required: true },
     pic: { type: String, required: false, default: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWo3luud5KPZknLR5zdUUwzvYBztWgTxrkbA&usqp=CAU" },
     followers: [{ type: ObjectId, ref: "User" }],
-    following: [{ type: ObjectId, ref: "User" }]
+    following: [{ type: ObjectId, ref: "User" }],
+    resetToken: String,
+    expireToken: Date
 })
 
 mongoose.model('User', userSchema);

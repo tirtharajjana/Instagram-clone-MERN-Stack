@@ -11,6 +11,7 @@ import CreatePost from "./components/screens/CreatePost";
 import UserProfile from "./components/screens/UserProfile";
 import { reducre, initialState } from './reducres/userReducre'
 import SubscribedUserPosts from "./components/screens/SubscribedUserPosts";
+import Reset from "./components/screens/Reset";
 
 
 export const UserContext = createContext();
@@ -25,7 +26,8 @@ const Routing = () => {
       dispatch({ type: "USER", payload: user })
       // history.push('/');
     } else {
-      history.push('/signin')
+      if (!history.location.pathname.startsWith('/reset'))
+        history.push('/signin')
     }
   }, [])
   return (
@@ -37,6 +39,7 @@ const Routing = () => {
       <Route path="/create" component={CreatePost} />
       <Route path="/profile/:userid" component={UserProfile} />
       <Route path="/myfollowingpost" component={SubscribedUserPosts} />
+      <Route path="/reset" component={Reset} />
     </Switch>
   )
 }

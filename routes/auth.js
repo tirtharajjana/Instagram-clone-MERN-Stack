@@ -1,11 +1,24 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
-const User = mongoose.model("User")
+const User = mongoose.model("User");
+const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { JWT_SECRET } = require('../config/keys')
-const requireLogin = require('../middleware/requireLogin')
+const requireLogin = require('../middleware/requireLogin');
+
+const nodemailer = require('nodemailer');
+const sendgridTransport = require('nodemailer-sendgrid-transport')
+
+//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
+
+
+const transporter = nodemailer.createTransport(sendgridTransport({
+    auth: {
+        api_key: "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"
+    }
+}))
 
 router.get('/', requireLogin, (req, res) => {
     res.send("hi")
@@ -27,7 +40,15 @@ router.post('/signup', (req, res) => {
                     const user = new User({ email, name, password: hashedPassword, pic });
                     user.save()
                         .then(user => {
-                            console.log(user);
+                            // console.log(user);
+                            transporter.sendMail({
+                                to: user.email,
+
+                                from: "tirtharajjana.cse19@chitkarauniversity.edu.in",
+                                subject: "signup success",
+                                html: "<h1>welcome to instagram</h1>"
+                            })
+
                             return res.status(200).json({ message: "saved successfully" })
                         })
                         .catch(err => {
@@ -71,4 +92,33 @@ router.post('/signin', (req, res) => {
         })
 })
 
+
+router.post('/reset-password', (req, res) => {
+    crypto.randomBytes(32, (err, buffer) => {
+        if (err) {
+            console.log(err);
+        }
+        const token = buffer.toString('hex');
+        User.findOne({ email: req.body.email })
+            .then(user => {
+                if (!user) {
+                    return res.status(422).json({ error: "User don't exist with this email" })
+                }
+                user.resetToken = token;
+                user.expireToken = Date.now() + 3600000;
+                user.save().then(result => {
+                    transporter.sendMail({
+                        to: user.email,
+                        from: "tirtharajjana.cse19@chitkarauniversity.edu.in",
+                        subject: "Password reset",
+                        html: `
+                        <p>You requested for reset password</p>
+                        <h5>Click this <a href="http://localhost:3000/reset/${token}" >link</a> to reset password</h5>
+                        `
+                    })
+                    res.json({ message: "check your email" })
+                })
+            })
+    })
+})
 module.exports = router;
