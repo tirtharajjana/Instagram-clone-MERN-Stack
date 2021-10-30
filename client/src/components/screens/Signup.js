@@ -88,6 +88,9 @@ const Signup = () => {
                 <h5>
                     <Link to="/signin">Already have an account ?</Link>
                 </h5>
+                <h5>
+                    <Link to="/reset">Forget password</Link>
+                </h5>
             </div>
         </div>
     )

@@ -12,6 +12,7 @@ import UserProfile from "./components/screens/UserProfile";
 import { reducre, initialState } from './reducres/userReducre'
 import SubscribedUserPosts from "./components/screens/SubscribedUserPosts";
 import Reset from "./components/screens/Reset";
+import NewPassword from "./components/screens/NewPassword";
 
 
 export const UserContext = createContext();
@@ -39,7 +40,8 @@ const Routing = () => {
       <Route path="/create" component={CreatePost} />
       <Route path="/profile/:userid" component={UserProfile} />
       <Route path="/myfollowingpost" component={SubscribedUserPosts} />
-      <Route path="/reset" component={Reset} />
+      <Route path="/reset" exact component={Reset} />
+      <Route path="/reset/:token" component={NewPassword} />
     </Switch>
   )
 }
