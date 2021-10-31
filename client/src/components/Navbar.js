@@ -70,26 +70,28 @@ const Navbar = () => {
                     </ul>
                 </div>
 
+                {state &&
+                    <div id="modal1" className="modal" ref={searchModal} >
+                        <div className="modal-content">
+                            <input type="text" placeholder="search users" onChange={e => fetchUsers(e.target.value)} value={search} />
 
-                <div id="modal1" className="modal" ref={searchModal} >
-                    <div className="modal-content">
-                        <input type="text" placeholder="search users" onChange={e => fetchUsers(e.target.value)} value={search} />
+                            <ul className="collection">
+                                {userDetails.map(item => {
+                                    return <Link key={item._id} to={(item._id !== state._id) ? `/profile/${item._id}` : '/profile'} onClick={() => {
+                                        M.Modal.getInstance(searchModal.current).close();
+                                        setUserDetails([]); setSearch("");
+                                    }} > <li className="collection-item">{item.email}</li></Link>
+                                })}
 
-                        <ul className="collection">
-                            {userDetails.map(item => {
-                                return <Link key={item._id} to={(item._id !== state._id) ? `/profile/${item._id}` : '/profile'} onClick={() => {
-                                    M.Modal.getInstance(searchModal.current).close();
-                                    setUserDetails([]); setSearch("");
-                                }} > <li className="collection-item">{item.email}</li></Link>
-                            })}
+                            </ul>
 
-                        </ul>
+                        </div>
 
+                        <div className="modal-footer">
+                            <button href="#!" className="modal-close waves-effect waves-green btn-flat" onClick={() => { setUserDetails([]); setSearch("") }}>close</button>
+                        </div>
                     </div>
-                    <div className="modal-footer">
-                        <button href="#!" className="modal-close waves-effect waves-green btn-flat" onClick={() => { setUserDetails([]); setSearch("") }}>close</button>
-                    </div>
-                </div>
+                }
             </nav>
             <ul class="sidenav" id="mobile-demo">
                 <li><a href="sass.html">Sass</a></li>
