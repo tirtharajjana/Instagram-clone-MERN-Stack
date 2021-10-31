@@ -1,7 +1,7 @@
 import React, { useContext, useRef, useEffect, useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { UserContext } from '../App'
-import M from 'materialize-css'
+import M, { Sidenav } from 'materialize-css'
 
 
 const Navbar = () => {
@@ -54,38 +54,49 @@ const Navbar = () => {
                 setUserDetails(results.user);
             })
     }
-
+    document.addEventListener('DOMContentLoaded', function () {
+        var elems = document.querySelectorAll('.sidenav');
+        var instances = M.Sidenav.init(elems, Sidenav);
+    });
     return (
         <>
-            <div >
-                <nav>
-                    <div className="nav-wrapper white" >
-                        <Link to={state ? '/' : '/signin'} className="brand-logo left">Instagram</Link>
-                        <ul id="nav-mobile" className="right hide-on-med-and-down">
-                            {renderList()}
-                        </ul>
-                    </div>
-                </nav>
-            </div>
-            <div id="modal1" className="modal" ref={searchModal} >
-                <div className="modal-content">
-                    <input type="text" placeholder="search users" onChange={e => fetchUsers(e.target.value)} value={search} />
 
-                    <ul className="collection">
-                        {userDetails.map(item => {
-                            return <Link key={item._id} to={(item._id !== state._id) ? `/profile/${item._id}` : '/profile'} onClick={() => {
-                                M.Modal.getInstance(searchModal.current).close();
-                                setUserDetails([]); setSearch("");
-                            }} > <li className="collection-item">{item.email}</li></Link>
-                        })}
+            <nav>
+                <div className="nav-wrapper white">
+                    <Link to={state ? "/" : "/signin"} className="brand-logo left">Instagram</Link>
+                    <ul id="nav-mobile" className="right">
+                        {renderList()}
 
                     </ul>
+                </div>
 
+
+                <div id="modal1" className="modal" ref={searchModal} >
+                    <div className="modal-content">
+                        <input type="text" placeholder="search users" onChange={e => fetchUsers(e.target.value)} value={search} />
+
+                        <ul className="collection">
+                            {userDetails.map(item => {
+                                return <Link key={item._id} to={(item._id !== state._id) ? `/profile/${item._id}` : '/profile'} onClick={() => {
+                                    M.Modal.getInstance(searchModal.current).close();
+                                    setUserDetails([]); setSearch("");
+                                }} > <li className="collection-item">{item.email}</li></Link>
+                            })}
+
+                        </ul>
+
+                    </div>
+                    <div className="modal-footer">
+                        <button href="#!" className="modal-close waves-effect waves-green btn-flat" onClick={() => { setUserDetails([]); setSearch("") }}>close</button>
+                    </div>
                 </div>
-                <div className="modal-footer">
-                    <button href="#!" className="modal-close waves-effect waves-green btn-flat" onClick={() => { setUserDetails([]); setSearch("") }}>close</button>
-                </div>
-            </div>
+            </nav>
+            <ul class="sidenav" id="mobile-demo">
+                <li><a href="sass.html">Sass</a></li>
+                <li><a href="badges.html">Components</a></li>
+                <li><a href="collapsible.html">Javascript</a></li>
+                <li><a href="mobile.html">Mobile</a></li>
+            </ul>
         </>
     )
 }

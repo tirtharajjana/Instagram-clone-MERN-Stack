@@ -10,13 +10,14 @@ const requireLogin = require('../middleware/requireLogin');
 
 const nodemailer = require('nodemailer');
 const sendgridTransport = require('nodemailer-sendgrid-transport')
+const { SENDGRID_API, EMAIL } = require('../config/keys')
 
-//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
+//
 
 
 const transporter = nodemailer.createTransport(sendgridTransport({
     auth: {
-        api_key: "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"
+        api_key: SENDGRID_API
     }
 }))
 
@@ -46,7 +47,7 @@ router.post('/signup', (req, res) => {
 
                                 from: "tirtharajjana.cse19@chitkarauniversity.edu.in",
                                 subject: "signup success",
-                                html: "<h1>welcome to instagram</h1>"
+                                html: "<h1>Welcome to instagram, You have completed Your Sign up process,<br>Thank you</h1>"
                             })
 
                             return res.status(200).json({ message: "saved successfully" })
@@ -113,7 +114,7 @@ router.post('/reset-password', (req, res) => {
                         subject: "Password reset",
                         html: `
                         <p>You requested for reset password</p>
-                        <h5>Click this <a href="http://localhost:3000/reset/${token}" >link</a> to reset password</h5>
+                        <h5>Click this <a href="${EMAIL}/reset/${token}" >link</a> to reset password</h5>
                         `
                     })
                     res.json({ message: "check your email" })
